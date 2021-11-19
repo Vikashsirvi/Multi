@@ -8,7 +8,7 @@ const BackwardCounter = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCounter((prevCounter) => prevCounter - 1);
-    }, 10);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);
