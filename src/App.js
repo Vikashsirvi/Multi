@@ -6,11 +6,12 @@ import UserProfile from "./components/UserProfile";
 import { useSelector } from "react-redux";
 
 function App() {
-  const auth = useSelector((state) => state.auth.isAuthenticated);
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
   return (
     <Fragment>
       <Header />
-      {auth ? <UserProfile /> : <Auth />}
+      {!isAuth && <Auth />}
+      {isAuth && <UserProfile />}
 
       <Counter />
     </Fragment>

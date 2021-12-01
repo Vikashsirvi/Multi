@@ -4,7 +4,7 @@ import { authActions } from "../store";
 
 const Header = () => {
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth.isAuthenticated);
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
 
   const logOutHandler = () => {
     dispatch(authActions.logOut());
@@ -13,21 +13,22 @@ const Header = () => {
   return (
     <header className={classes.header}>
       <h1>Redux Auth</h1>
-      <nav>
-        <ul>
-          <li>
-            <a href="/">My Products</a>
-          </li>
-          <li>
-            <a href="/">My Sales</a>
-          </li>
-          {auth && (
+      {isAuth && (
+        <nav>
+          <ul>
+            <li>
+              <a href="/">My Products</a>
+            </li>
+            <li>
+              <a href="/">My Sales</a>
+            </li>
+
             <li>
               <button onClick={logOutHandler}>Logout</button>
             </li>
-          )}
-        </ul>
-      </nav>
+          </ul>
+        </nav>
+      )}
     </header>
   );
 };
