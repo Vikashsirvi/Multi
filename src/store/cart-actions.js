@@ -1,6 +1,6 @@
-//marked
 import { uiActions } from "./ui-slice";
 import { cartActions } from "./cart-slice";
+
 export const fetchCartData = () => {
   return async (dispatch) => {
     const fetchData = async () => {
@@ -9,12 +9,14 @@ export const fetchCartData = () => {
       );
 
       if (!response.ok) {
-        throw new Error("could not fatch cart data");
+        throw new Error("Could not fetch cart data!");
       }
-      const data = await response.json;
+
+      const data = await response.json();
 
       return data;
     };
+
     try {
       const cartData = await fetchData();
       dispatch(
@@ -40,8 +42,8 @@ export const sendCartData = (cart) => {
     dispatch(
       uiActions.showNotification({
         status: "pending",
-        title: "sending...",
-        message: "sending cart data!",
+        title: "Sending...",
+        message: "Sending cart data!",
       })
     );
 
@@ -56,25 +58,28 @@ export const sendCartData = (cart) => {
           }),
         }
       );
+
       if (!response.ok) {
-        throw new Error("sending cart data failed.");
+        throw new Error("Sending cart data failed.");
       }
     };
+
     try {
       await sendRequest();
+
       dispatch(
         uiActions.showNotification({
           status: "success",
-          title: "Success",
-          message: "Sent cart data Successfully",
+          title: "Success!",
+          message: "Sent cart data successfully!",
         })
       );
     } catch (error) {
       dispatch(
         uiActions.showNotification({
           status: "error",
-          title: "Error",
-          message: "Sending cart data Failed!",
+          title: "Error!",
+          message: "Sending cart data failed!",
         })
       );
     }
