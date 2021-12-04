@@ -1,3 +1,4 @@
+//marked
 import { uiActions } from "./ui-slice";
 import { cartActions } from "./cart-slice";
 export const fetchCartData = () => {
@@ -16,8 +17,13 @@ export const fetchCartData = () => {
     };
     try {
       const cartData = await fetchData();
-      dispatch(cartActions.replaceCart(cartData));
-    } catch {
+      dispatch(
+        cartActions.replaceCart({
+          items: cartData.items || [],
+          totalQuantity: cartData.totalQuantity,
+        })
+      );
+    } catch (error) {
       dispatch(
         uiActions.showNotification({
           status: "error",
@@ -44,7 +50,10 @@ export const sendCartData = (cart) => {
         "https://react-redux-bc4a4-default-rtdb.firebaseio.com/cart.json",
         {
           method: "PUT",
-          body: JSON.stringify(cart),
+          body: JSON.stringify({
+            items: cart.items,
+            totalQuantity: cart.totalQuantity,
+          }),
         }
       );
       if (!response.ok) {
@@ -60,7 +69,7 @@ export const sendCartData = (cart) => {
           message: "Sent cart data Successfully",
         })
       );
-    } catch {
+    } catch (error) {
       dispatch(
         uiActions.showNotification({
           status: "error",
