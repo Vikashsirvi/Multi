@@ -7,9 +7,9 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" exact element={<Navigate to="/quotes" />}></Route>
+        <Route path="/" element={<Navigate to="/quotes" />}></Route>
         <Route path="/quotes" element={<AllQuotes />}></Route>
-        <Route path="/quotes/:quoteId" element={<QuoteDetail />}></Route>
+        <Route path="/quotes/:quoteId/*" element={<QuoteDetail />}></Route>
         <Route path="/new-quote" element={<NewQuote />}></Route>
       </Routes>
     </div>
