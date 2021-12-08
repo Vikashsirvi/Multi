@@ -1,5 +1,5 @@
 import classes from "./MainNavigation.module.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 const MainNavigation = () => {
   return (
     <header className={classes.header}>
@@ -7,20 +7,20 @@ const MainNavigation = () => {
       <nav className={classes.nav}>
         <ul>
           <li>
-            <Link
+            <NavLink
               to="/quotes"
               className={(navData) => (navData.isActive ? classes.active : "")}
             >
               All Quotes
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link
+            <NavLink
               to="/new-quote"
               className={(navData) => (navData.isActive ? classes.active : "")}
             >
               Add a Quote
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>
