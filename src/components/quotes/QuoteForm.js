@@ -1,12 +1,15 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Card from "../ui/Card";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import classes from "./QuoteForm.module.css";
 
 const QuoteForm = (props) => {
+  const navigate = useNavigate();
   const authorInputRef = useRef();
   const textInputRef = useRef();
+  const [submit, setSubmit] = useState(false);
 
   function submitFormHandler(event) {
     event.preventDefault();
@@ -17,7 +20,14 @@ const QuoteForm = (props) => {
     // optional: Could validate here
 
     props.onAddQuote({ author: enteredAuthor, text: enteredText });
+    setSubmit(true);
   }
+
+  useEffect(() => {
+    if (submit) {
+      navigate("/quotes", { replace: false });
+    }
+  }, [submit, navigate]);
 
   return (
     <Card>
