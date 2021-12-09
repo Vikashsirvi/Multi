@@ -1,4 +1,4 @@
-import { Link, Route, Routes, useLocation, useParams } from "react-router-dom";
+import { Link, Route, Routes, useMatch, useParams } from "react-router-dom";
 import Comments from "../components/comments/Comments";
 import HighlightedQuote from "../components/quotes/HighlightedQuote";
 const DUMMY_QUOTES = [
@@ -6,11 +6,11 @@ const DUMMY_QUOTES = [
   { id: "q2", author: "Papito", text: "Learning React is fun" },
 ];
 const QuoteDetail = () => {
+  const commentStatus = useMatch("/quotes/:quoteId/comments");
+  console.log(commentStatus);
   const QuoteId = useParams();
   const quote = DUMMY_QUOTES.find((quote) => quote.id === QuoteId.quoteId);
-  const Location = useLocation();
-  const { pathname } = Location;
-  const commentStatus = pathname.includes("/comments");
+
   if (!quote) {
     return <p>No Quote Found</p>;
   }
