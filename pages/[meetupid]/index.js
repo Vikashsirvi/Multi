@@ -11,6 +11,24 @@ function MeetupDetail() {
   );
 }
 
+export async function getStaticPaths() {
+  return {
+    fallback: false,
+    paths: [
+      {
+        params: {
+          meetupid: "m1",
+        },
+      },
+      {
+        params: {
+          meetupid: "m2",
+        },
+      },
+    ],
+  };
+}
+
 export async function getStaticProps(context) {
   const meetupId = context.params;
   console.log(meetupId);
