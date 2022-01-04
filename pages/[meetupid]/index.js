@@ -1,47 +1,60 @@
 import MeetupDetails from "../../components/meetups/MeetupDetails";
-
+import { MongoClient, ObjectId } from "mongodb";
 function MeetupDetail(props) {
-  const meetupData = props.meetupData;
   return (
     <MeetupDetails
-      title={meetupData.title}
-      image={meetupData.image}
-      address={meetupData.address}
-      desc={meetupData.desc}
+      title={props.meetupData.title}
+      image={props.meetupData.image}
+      address={props.meetupData.address}
+      desc={props.meetupData.description}
     />
   );
 }
 
 export async function getStaticPaths() {
+  const client = await MongoClient.connect(
+    "mongodb+srv://vikash:Vikash123@cluster0.f0bps.mongodb.net/meetups?retryWrites=true&w=majority"
+  );
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+
+  const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
+
+  client.close();
+
   return {
     fallback: false,
-    paths: [
-      {
-        params: {
-          meetupid: "m1",
-        },
-      },
-      {
-        params: {
-          meetupid: "m2",
-        },
-      },
-    ],
+    paths: meetups.map((meetup) => ({
+      params: { meetupid: meetup._id.toString() },
+    })),
   };
 }
 
 export async function getStaticProps(context) {
-  const meetupId = context.params;
-  console.log(meetupId);
+  const meetupId = context.params.meetupid;
+
+  const client = await MongoClient.connect(
+    "mongodb+srv://vikash:Vikash123@cluster0.f0bps.mongodb.net/meetups?retryWrites=true&w=majority"
+  );
+  const db = client.db();
+
+  const meetupsCollection = db.collection("meetups");
+
+  const selectedMeetup = await meetupsCollection.findOne({
+    _id: ObjectId(meetupId),
+  });
+
+  client.close();
+
   return {
     props: {
       meetupData: {
-        id: meetupId,
-        title: "First Meetup",
-        image:
-          "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Firishhistorypodcast.ie%2Fwp-content%2Fuploads%2F2014%2F08%2F2014-07-01-11.13.22-e1406902269265.jpg&f=1&nofb=1",
-        address: "Some Street 5, Some City 404040",
-        desc: "This is a first meetup",
+        id: selectedMeetup._id.toString(),
+        title: selectedMeetup.title,
+        address: selectedMeetup.address,
+        image: selectedMeetup.image,
+        description: selectedMeetup.description,
       },
     },
   };
