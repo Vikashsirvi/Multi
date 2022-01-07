@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Transition from "react-transition-group/Transition";
 
 import "./App.css";
 import Modal from "./components/Modal/Modal";
@@ -36,6 +35,7 @@ class App extends Component {
           mountOnEnter
           unmountOnExit
         >
+          <Modal show={this.state.modalIsOpen} closed={this.closeModal} />
           {(state) => (
             <div
               style={{
@@ -49,14 +49,7 @@ class App extends Component {
             ></div>
           )}
         </Transition>
-        <Transition
-          mountOnEnter
-          unmountOnExit
-          in={this.state.modalIsOpen}
-          timeout={300}
-        >
-          {(state) => <Modal show={state} closed={this.closeModal} />}
-        </Transition>
+
         {this.state.modalIsOpen ? <Backdrop show /> : null}
         <button className="Button" onClick={this.showModal}>
           Open Modal
