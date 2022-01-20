@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Async from "./Async";
 import Output from "./Output";
 
 const Greeting = () => {
@@ -14,6 +15,7 @@ const Greeting = () => {
       {changedText && <Output>Changed</Output>}
 
       <button onClick={changeTextHandler}>Click Here</button>
+      <Async />
     </div>
   );
 };
